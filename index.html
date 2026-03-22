@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Njabulo Dlamini | SOC Portfolio</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #0f1117;
+      color: #e5e5e5;
+    }
+
+    header, footer {
+      background: #161920;
+      padding: 20px 40px;
+      text-align: center;
+    }
+
+    header h1 {
+      font-size: 2.7em;
+      margin: 0;
+      color: #3caeff;
+    }
+
+    header p {
+      color: #888;
+      margin-top: 5px;
+    }
+
+    .social-icons {
+      text-align: center;
+      margin-top: 10px;
+    }
+
+    .social-icons a {
+      color: #3caeff;
+      margin: 0 12px;
+      font-size: 1.4em;
+      text-decoration: none;
+      transition: color 0.3s;
+    }
+
+    .social-icons a:hover {
+      color: #ffffff;
+    }
+
+    .container {
+      max-width: 1000px;
+      margin: 40px auto;
+      padding: 0 20px;
+    }
+
+    .section {
+      margin-bottom: 60px;
+    }
+
+    .section h2 {
+      color: #3caeff;
+      border-bottom: 2px solid #2b2f38;
+      padding-bottom: 10px;
+      margin-bottom: 20px;
+    }
+
+    /* About Me - Two Column Styling */
+    .about-container {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 30px;
+      align-items: flex-start;
+    }
+
+    .about-column {
+      flex: 1;
+      min-width: 300px;
+    }
+
+    .about-column img {
+      border-radius: 10px;
+      width: 100%;
+      max-width: 300px;
+      height: auto;
+      box-shadow: 0 0 15px #1a90ff44;
+    }
+
+    .about-column p {
+      font-size: 1em;
+      color: #ccc;
+      line-height: 1.6;
+    }
+
+    @media (max-width: 768px) {
+      .about-container {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+      }
+
+      .about-column img {
+        margin-bottom: 20px;
+      }
+    }
+
+    .project {
+      background-color: #1a1d25;
+      border-left: 4px solid #3caeff;
+      padding: 20px;
+      margin-bottom: 30px;
+    }
+
+    .project img {
+      width: 20%;
+      border-radius: 6px;
+      margin-bottom: 15px;
+    }
+
+    .project h3 {
+      margin: 0 0 10px;
+      color: #fff;
+    }
+
+    .project a {
+      color: #69c7ff;
+      text-decoration: none;
+      font-size: 0.95em;
+    }
+
+    ul.skills {
+      list-style: square;
+      padding-left: 20px;
+    }
+
+    ul.skills li {
+      margin-bottom: 6px;
+    }
+
+    .contact p, .contact a {
+      font-size: 1em;
+      color: #aaa;
+      text-decoration: none;
+    }
+
+    .contact i {
+      margin-right: 10px;
+      color: #3caeff;
+    }
+
+    footer p {
+      margin: 5px;
+      font-size: 0.9em;
+      color: #555;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>Njabulo Dlamini</h1>
+    <p>Cybersecurity Enthusiast | SOC Analyst in Training</p>
+    <div class="social-icons">
+      <a href="mailto:dlamininjabulo247@gmail.com" title="Email">
+        <i class="fas fa-envelope"></i>
+      </a>
+      <a href="tel:078 175 9763" title="Call">
+        <i class="fas fa-phone"></i>
+      </a>
+      <a href="https://github.com/fessor94" target="_blank" title="GitHub">
+        <i class="fab fa-github"></i>
+      </a>
+      <a href="https://www.linkedin.com/in/njabulo-dlamini94/" target="_blank" title="LinkedIn">
+        <i class="fab fa-linkedin"></i>
+      </a>
+    </div>
+  </header>
+
+  <div class="container">
+
+    <!-- About Me Section -->
+    <section id="about" class="section">
+      <h2>👨‍💻 About Me</h2>
+      <div class="about-container">
+        <div class="about-column">
+          <img src="me1.jpg" alt="Njabulo Dlamini Photo">
+        </div>
+        <div class="about-column">
+          <p>
+            Hey, I’m Njabulo — a naturally curious, tech-loving person currently diving into the world of cybersecurity. I have recent passed the ISC2 CC(Ceritfied in Cybersecurity). I've always been fascinated by how computers and networks work behind the scenes. Whether it’s figuring out how data travels or understanding the ins and outs of different systems, I’m hooked. I also love gaming and, out of pure curiosity, I’ll Google just about anything tech-related that pops into my head.
+          </p>
+          <p>
+            Cybersecurity — especially Security Operations Centers (SOC) — really speaks to me because I enjoy solving problems, spotting patterns, and staying one step ahead of potential threats. I come from a customer-facing background, so I’m used to staying calm under pressure, communicating clearly, and getting things done. I’m excited to keep growing in this field and eventually work as part of a team defending systems and making a real impact.
+          </p>
+          <p>
+            Right now, I’m self-teaching Python and digging into the technical side of cybersecurity — things like TCP/IP, firewalls, ACLs, network troubleshooting, and using tools like Wireshark. I’ve been learning through HackTheBox, online labs, and a ton of YouTube deep dives. And honestly, I love every second of it. When it comes to tech, I’m also the go-to person in my family and friend group — if something stops working, I’m usually the one getting the call!
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Projects Section -->
+    <section id="projects" class="section">
+      <h2>🛡️ Projects</h2>
+
+      <div class="project">
+        <img src="email.png" alt="Email Analysis 1">
+        <h3>Email Header Analysis</h3>
+        <p>I used this email header analysis to demonstrate my understanding of email security and authentication.</p>
+        <a href="https://github.com/fessor94/email-header-analysis/blob/main/email-header-analysis.md">🔗 View on GitHub</a>
+      </div>
+
+      <div class="project">
+        <img src="h.jpg" alt="Email Analysis 2">
+        <h3>BTLO_email_analysis_lab</h3>
+        <p>In this project I am tackling the The Planet's Prestige email analysis Lab.</p>
+        <a href="https://github.com/fessor94/BTLO_email_analysis/blob/main/BTLO_email_analysis_lab.md">🔗 View on GitHub</a>
+      </div>
+
+      <div class="project">
+        <img src="reachkart.png" alt="Wireshark Packet Analysis">
+        <h3>Wireshark Threat Analysis</h3>
+        <p>"Welcome to my write-up of the HackTheBox lab ReckKart—aka the packet-sniffing nightmare that made me question all my life choices. This one’s an investigation-style challenge built around a .pcap file, so naturally, I fired up Wireshark and prepared to feel smart... only to be immediately humbled by a wall of cryptic packets. I picked this lab because I realized there were zero beginner-friendly guides out there. Like, not even a ‘Hello world’ for digital detectives. So, if you’re a fellow beginner Googling wildly and wondering if Wireshark is secretly judging you, don’t worry—you’re in the right place.".</p>
+        <a href="https://github.com/fessor94/ReachKart_Walkthrough.git">View on GitHub</a>
+      </div>
+
+      <div class="project">
+        <img src="wireshaa.png" alt="Decrypting Wireshark PCAP Traffic">
+        <h3>Decrypting Wireshark PCAP Traffic</h3>
+        <p>"This project shows how to extract user credentials from a Windows memory dump, crack an NTLM hash to recover a password, and use it to decrypt network traffic.
+
+It demonstrates a full forensic workflow—from credential recovery to analyzing and extracting files from encrypted SMB3 communications.".</p>
+        <a href="https://github.com/fessor94/Decrypting_wireshark_pcap_traffic/blob/main/decrypted_protocols.md">View on GitHub</a>
+      </div>
+    </section>
+
+    <!-- Skills Section -->
+    <section id="skills" class="section">
+      <h2>🧠 Skills</h2>
+      <ul class="skills">
+        <li>Operating Systems (OSs): Windows, Windows Active Directory and Linux</li>
+        <li>Networking: TCP/IP, DNS, DHCP, VLANs, Routing Protocols</li>
+        <li>Security: ACLs, Firewalls, Packet Analysis, Linux Hardening</li>
+        <li>Tools: Wireshark, Linux CLI, Windows Admin, HackTheBox</li>
+        <li>Soft Skills: Problem-Solving, Teamwork, Process-Oriented</li>
+      </ul>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="section contact">
+      <h2>📬 Contact</h2>
+      <p><i class="fas fa-envelope"></i> <a href="mailto:dlamininjabulo247@gmail.com">dlamininjabulo247@gmail.com</a></p>
+      <p><i class="fas fa-phone"></i> <a href="tel:078 175 9763">078 175 9763</a></p>
+    </section>
+
+  </div>
+
+  <footer>
+    <p>&copy; 2025 Njabulo Dlamini</p>
+    <p>Securing the digital world, one packet at a time.</p>
+  </footer>
+
+</body>
+</html>
+
