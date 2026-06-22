@@ -1,264 +1,642 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#0f1117">
+  <meta name="description" content="Njabulo Dlamini — SOC Analyst in Training. Cybersecurity portfolio showcasing honeypot deployments, email analysis, Wireshark forensics and more.">
   <title>Njabulo Dlamini | SOC Portfolio</title>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+
+  <!-- Font Awesome (icons) -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
   <style>
-    body {
-      margin: 0;
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      background-color: #0f1117;
-      color: #e5e5e5;
+
+    /* ════════════════════════════════════════
+       TOKENS
+    ════════════════════════════════════════ */
+    :root {
+      --bg:          #0f1117;
+      --surface:     #161920;
+      --card:        #1a1d25;
+      --border:      #2b2f38;
+      --accent:      #3caeff;
+      --accent-dim:  rgba(60,174,255,0.12);
+      --accent-glow: rgba(60,174,255,0.25);
+      --text:        #e5e5e5;
+      --muted:       #888;
+      --link:        #69c7ff;
+
+      --radius-sm:   6px;
+      --radius-md:   10px;
+      --radius-lg:   14px;
+
+      --space-xs:    clamp(6px,  1.5vw, 10px);
+      --space-sm:    clamp(12px, 2.5vw, 18px);
+      --space-md:    clamp(20px, 4vw,   32px);
+      --space-lg:    clamp(36px, 6vw,   60px);
     }
 
-    header, footer {
-      background: #161920;
-      padding: 20px 40px;
+    /* ════════════════════════════════════════
+       RESET & BASE
+    ════════════════════════════════════════ */
+    *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+
+    html {
+      scroll-behavior: smooth;
+      -webkit-text-size-adjust: 100%;
+    }
+
+    html, body { overflow-x: hidden; width: 100%; }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      min-width: 280px;
+    }
+
+    img { max-width:100%; display:block; height:auto; }
+
+    a {
+      color: var(--link);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+
+    a:hover, a:focus { color: #fff; }
+
+    /* ════════════════════════════════════════
+       NAV
+    ════════════════════════════════════════ */
+    .site-nav {
+      background: var(--surface);
+      border-bottom: 1px solid var(--border);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      padding: 0 var(--space-md);
+    }
+
+    .nav-inner {
+      max-width: 1000px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 52px;
+    }
+
+    .nav-brand {
+      font-size: clamp(0.85rem, 2.5vw, 0.95rem);
+      font-weight: 700;
+      color: var(--accent);
+      letter-spacing: 0.04em;
+      white-space: nowrap;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: clamp(8px, 2.5vw, 24px);
+      list-style: none;
+    }
+
+    .nav-links a {
+      font-size: clamp(0.75rem, 2vw, 0.88rem);
+      color: var(--muted);
+      font-weight: 600;
+      padding: 4px 2px;
+    }
+
+    .nav-links a:hover { color: var(--accent); }
+
+    /* hide nav text on very small screens, keep icons */
+    @media (max-width: 360px) {
+      .nav-text { display: none; }
+    }
+
+    /* ════════════════════════════════════════
+       HEADER / HERO
+    ════════════════════════════════════════ */
+    header {
+      background: var(--surface);
+      padding: var(--space-lg) var(--space-md) var(--space-md);
       text-align: center;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .header-avatar {
+      width: clamp(80px, 22vw, 120px);
+      height: clamp(80px, 22vw, 120px);
+      border-radius: 50%;
+      object-fit: cover;
+      margin: 0 auto var(--space-sm);
+      border: 3px solid var(--accent);
+      box-shadow: 0 0 20px var(--accent-glow);
     }
 
     header h1 {
-      font-size: 2.7em;
-      margin: 0;
-      color: #3caeff;
+      font-size: clamp(1.7rem, 5vw, 2.7rem);
+      color: var(--accent);
+      letter-spacing: -0.01em;
+      line-height: 1.15;
     }
 
-    header p {
-      color: #888;
-      margin-top: 5px;
+    header .tagline {
+      color: var(--muted);
+      font-size: clamp(0.85rem, 2.5vw, 1rem);
+      margin-top: 6px;
     }
 
+    /* Cert badge */
+    .cert-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      margin-top: var(--space-sm);
+      padding: 6px 16px;
+      background: var(--accent-dim);
+      border: 1px solid rgba(60,174,255,0.35);
+      border-radius: 999px;
+      font-size: clamp(0.72rem, 1.8vw, 0.82rem);
+      color: var(--accent);
+      font-weight: 600;
+    }
+
+    /* Social icons row */
     .social-icons {
-      text-align: center;
-      margin-top: 10px;
+      margin-top: var(--space-sm);
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: clamp(14px, 4vw, 24px);
     }
 
     .social-icons a {
-      color: #3caeff;
-      margin: 0 12px;
-      font-size: 1.4em;
-      text-decoration: none;
-      transition: color 0.3s;
+      color: var(--accent);
+      font-size: clamp(1.2rem, 4vw, 1.5rem);
+      /* minimum 44×44 tap target */
+      width: 44px;
+      height: 44px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      background: var(--accent-dim);
+      transition: background 0.2s, color 0.2s, transform 0.15s;
+      -webkit-tap-highlight-color: transparent;
     }
 
     .social-icons a:hover {
-      color: #ffffff;
+      background: var(--accent);
+      color: var(--bg);
+      transform: translateY(-2px);
     }
 
+    /* ════════════════════════════════════════
+       MAIN CONTAINER
+    ════════════════════════════════════════ */
     .container {
       max-width: 1000px;
-      margin: 40px auto;
-      padding: 0 20px;
+      margin: 0 auto;
+      padding: var(--space-lg) var(--space-md);
     }
 
+    /* ════════════════════════════════════════
+       SECTION COMMON
+    ════════════════════════════════════════ */
     .section {
-      margin-bottom: 60px;
+      margin-bottom: var(--space-lg);
+      scroll-margin-top: 60px; /* offset for sticky nav */
     }
 
     .section h2 {
-      color: #3caeff;
-      border-bottom: 2px solid #2b2f38;
+      color: var(--accent);
+      font-size: clamp(1.1rem, 3vw, 1.4rem);
+      border-bottom: 2px solid var(--border);
       padding-bottom: 10px;
-      margin-bottom: 20px;
+      margin-bottom: var(--space-md);
     }
 
-    /* About Me - Two Column Styling */
+    /* ════════════════════════════════════════
+       ABOUT — two columns
+    ════════════════════════════════════════ */
     .about-container {
       display: flex;
       flex-wrap: wrap;
-      gap: 30px;
+      gap: var(--space-md);
       align-items: flex-start;
     }
 
-    .about-column {
-      flex: 1;
-      min-width: 300px;
+    .about-img-col {
+      flex: 0 0 auto;
+      width: clamp(140px, 30vw, 260px);
     }
 
-    .about-column img {
-      border-radius: 10px;
+    .about-img-col img {
+      border-radius: var(--radius-md);
       width: 100%;
-      max-width: 300px;
-      height: auto;
-      box-shadow: 0 0 15px #1a90ff44;
+      box-shadow: 0 0 20px var(--accent-glow);
     }
 
-    .about-column p {
-      font-size: 1em;
+    .about-text-col {
+      flex: 1;
+      min-width: 220px;
+    }
+
+    .about-text-col p {
+      font-size: clamp(0.88rem, 2vw, 1rem);
       color: #ccc;
-      line-height: 1.6;
+      line-height: 1.7;
+      margin-bottom: 14px;
     }
 
-    @media (max-width: 768px) {
-      .about-container {
-        flex-direction: column;
-        align-items: center;
-        text-align: center;
-      }
+    .about-text-col p:last-child { margin-bottom: 0; }
 
-      .about-column img {
-        margin-bottom: 20px;
-      }
+    @media (max-width: 600px) {
+      .about-container { flex-direction: column; align-items: center; text-align: center; }
+      .about-img-col   { width: clamp(120px, 50vw, 200px); }
     }
 
+    /* ════════════════════════════════════════
+       PROJECTS
+    ════════════════════════════════════════ */
     .project {
-      background-color: #1a1d25;
-      border-left: 4px solid #3caeff;
-      padding: 20px;
-      margin-bottom: 30px;
+      background: var(--card);
+      border-left: 4px solid var(--accent);
+      border-radius: 0 var(--radius-md) var(--radius-md) 0;
+      padding: var(--space-md);
+      margin-bottom: var(--space-md);
+      transition: box-shadow 0.2s;
     }
 
-    .project img {
-      width: 20%;
-      border-radius: 6px;
-      margin-bottom: 15px;
+    .project:hover {
+      box-shadow: 0 4px 24px var(--accent-glow);
     }
+
+    .project-header {
+      display: flex;
+      align-items: flex-start;
+      gap: var(--space-sm);
+      margin-bottom: 12px;
+      flex-wrap: wrap;
+    }
+
+    .project-thumb {
+      width: clamp(56px, 14vw, 80px);
+      height: clamp(56px, 14vw, 80px);
+      object-fit: cover;
+      border-radius: var(--radius-sm);
+      flex-shrink: 0;
+    }
+
+    .project-title-wrap { flex: 1; min-width: 160px; }
 
     .project h3 {
-      margin: 0 0 10px;
+      font-size: clamp(0.95rem, 2.5vw, 1.1rem);
       color: #fff;
+      margin-bottom: 4px;
     }
 
-    .project a {
-      color: #69c7ff;
-      text-decoration: none;
-      font-size: 0.95em;
-    }
-
-    ul.skills {
-      list-style: square;
-      padding-left: 20px;
-    }
-
-    ul.skills li {
-      margin-bottom: 6px;
-    }
-
-    .contact p, .contact a {
-      font-size: 1em;
+    .project p {
+      font-size: clamp(0.82rem, 2vw, 0.93rem);
       color: #aaa;
-      text-decoration: none;
+      line-height: 1.65;
+      margin-bottom: 12px;
     }
 
-    .contact i {
-      margin-right: 10px;
-      color: #3caeff;
+    .project-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: clamp(0.8rem, 2vw, 0.9rem);
+      color: var(--link);
+      padding: 6px 14px;
+      border: 1px solid rgba(105,199,255,0.3);
+      border-radius: 999px;
+      transition: background 0.2s, border-color 0.2s;
+    }
+
+    .project-link:hover {
+      background: var(--accent-dim);
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+
+    /* ════════════════════════════════════════
+       SKILLS
+    ════════════════════════════════════════ */
+    .skills-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(clamp(220px, 40%, 280px), 1fr));
+      gap: var(--space-sm);
+    }
+
+    .skill-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      padding: var(--space-sm) var(--space-md);
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      font-size: clamp(0.82rem, 2vw, 0.92rem);
+      color: #ccc;
+      line-height: 1.5;
+      transition: border-color 0.2s;
+    }
+
+    .skill-card:hover { border-color: var(--accent); }
+
+    .skill-icon {
+      color: var(--accent);
+      font-size: 1rem;
+      margin-top: 2px;
+      flex-shrink: 0;
+    }
+
+    /* ════════════════════════════════════════
+       CONTACT
+    ════════════════════════════════════════ */
+    .contact-list {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .contact-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-size: clamp(0.88rem, 2.2vw, 1rem);
+      color: #aaa;
+    }
+
+    .contact-item i {
+      color: var(--accent);
+      width: 20px;
+      text-align: center;
+      flex-shrink: 0;
+    }
+
+    .contact-item a { color: #aaa; }
+    .contact-item a:hover { color: var(--accent); }
+
+    /* ════════════════════════════════════════
+       FOOTER
+    ════════════════════════════════════════ */
+    footer {
+      background: var(--surface);
+      border-top: 1px solid var(--border);
+      padding: var(--space-md);
+      text-align: center;
     }
 
     footer p {
-      margin: 5px;
-      font-size: 0.9em;
+      font-size: clamp(0.75rem, 2vw, 0.88rem);
       color: #555;
+      line-height: 1.8;
     }
+
+    footer .accent-text { color: var(--accent); }
+
+    /* ════════════════════════════════════════
+       UTILITY
+    ════════════════════════════════════════ */
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { transition: none !important; }
+    }
+
+    @media (max-width: 320px) {
+      .cert-badge { display: none; }
+    }
+
   </style>
 </head>
 <body>
 
-  <header>
-    <h1>Njabulo Dlamini</h1>
-    <p>Cybersecurity Enthusiast | SOC Analyst in Training</p>
-    <div class="social-icons">
-      <a href="mailto:dlamininjabulo247@gmail.com" title="Email">
-        <i class="fas fa-envelope"></i>
-      </a>
-      <a href="tel:078 175 9763" title="Call">
-        <i class="fas fa-phone"></i>
-      </a>
-      <a href="https://github.com/fessor94" target="_blank" title="GitHub">
-        <i class="fab fa-github"></i>
-      </a>
-      <a href="https://www.linkedin.com/in/njabulo-dlamini94/" target="_blank" title="LinkedIn">
-        <i class="fab fa-linkedin"></i>
-      </a>
-    </div>
-  </header>
+<!-- ══════════════════════
+     STICKY NAV
+══════════════════════ -->
+<nav class="site-nav" aria-label="Main navigation">
+  <div class="nav-inner">
+    <span class="nav-brand">ND // SOC</span>
+    <ul class="nav-links">
+      <li><a href="#about">  <span class="nav-text">About</span></a></li>
+      <li><a href="#projects"><span class="nav-text">Projects</span></a></li>
+      <li><a href="#skills"> <span class="nav-text">Skills</span></a></li>
+      <li><a href="#contact"><span class="nav-text">Contact</span></a></li>
+    </ul>
+  </div>
+</nav>
 
-  <div class="container">
 
-    <!-- About Me Section -->
-    <section id="about" class="section">
-      <h2>👨‍💻 About Me</h2>
-      <div class="about-container">
-        <div class="about-column">
-          <img src="me1.jpg" alt="Njabulo Dlamini Photo">
-        </div>
-        <div class="about-column">
-          <p>
-            Hey, I’m Njabulo — a naturally curious, tech-loving person currently diving into the world of cybersecurity. I have recent passed the ISC2 CC(Ceritfied in Cybersecurity). I've always been fascinated by how computers and networks work behind the scenes. Whether it’s figuring out how data travels or understanding the ins and outs of different systems, I’m hooked. I also love gaming and, out of pure curiosity, I’ll Google just about anything tech-related that pops into my head.
-          </p>
-          <p>
-            Cybersecurity — especially Security Operations Centers (SOC) — really speaks to me because I enjoy solving problems, spotting patterns, and staying one step ahead of potential threats. I come from a customer-facing background, so I’m used to staying calm under pressure, communicating clearly, and getting things done. I’m excited to keep growing in this field and eventually work as part of a team defending systems and making a real impact.
-          </p>
-          <p>
-            Right now, I’m self-teaching Python and digging into the technical side of cybersecurity — things like TCP/IP, firewalls, ACLs, network troubleshooting, and using tools like Wireshark. I’ve been learning through HackTheBox, online labs, and a ton of YouTube deep dives. And honestly, I love every second of it. When it comes to tech, I’m also the go-to person in my family and friend group — if something stops working, I’m usually the one getting the call!
-          </p>
-        </div>
-      </div>
-    </section>
+<!-- ══════════════════════
+     HEADER
+══════════════════════ -->
+<header>
+  <img class="header-avatar" src="me1.jpg" alt="Photo of Njabulo Dlamini">
 
-    <!-- Projects Section -->
-    <section id="projects" class="section">
-      <h2>🛡️ Projects</h2>
+  <h1>Njabulo Dlamini</h1>
+  <p class="tagline">Cybersecurity Enthusiast &nbsp;|&nbsp; SOC Analyst in Training</p>
 
-      <div class="project">
-        <img src="email.png" alt="Email Analysis 1">
-        <h3>Email Header Analysis</h3>
-        <p>I used this email header analysis to demonstrate my understanding of email security and authentication.</p>
-        <a href="https://github.com/fessor94/email-header-analysis/blob/main/email-header-analysis.md">🔗 View on GitHub</a>
-      </div>
-
-      <div class="project">
-        <img src="h.jpg" alt="Email Analysis 2">
-        <h3>BTLO_email_analysis_lab</h3>
-        <p>In this project I am tackling the The Planet's Prestige email analysis Lab.</p>
-        <a href="https://github.com/fessor94/BTLO_email_analysis/blob/main/BTLO_email_analysis_lab.md">🔗 View on GitHub</a>
-      </div>
-
-      <div class="project">
-        <img src="reachkart.png" alt="Wireshark Packet Analysis">
-        <h3>Wireshark Threat Analysis</h3>
-        <p>"Welcome to my write-up of the HackTheBox lab ReckKart—aka the packet-sniffing nightmare that made me question all my life choices. This one’s an investigation-style challenge built around a .pcap file, so naturally, I fired up Wireshark and prepared to feel smart... only to be immediately humbled by a wall of cryptic packets. I picked this lab because I realized there were zero beginner-friendly guides out there. Like, not even a ‘Hello world’ for digital detectives. So, if you’re a fellow beginner Googling wildly and wondering if Wireshark is secretly judging you, don’t worry—you’re in the right place.".</p>
-        <a href="https://github.com/fessor94/ReachKart_Walkthrough.git">View on GitHub</a>
-      </div>
-
-      <div class="project">
-        <img src="wireshaa.png" alt="Decrypting Wireshark PCAP Traffic">
-        <h3>Decrypting Wireshark PCAP Traffic</h3>
-        <p>"This project shows how to extract user credentials from a Windows memory dump, crack an NTLM hash to recover a password, and use it to decrypt network traffic.
-
-It demonstrates a full forensic workflow—from credential recovery to analyzing and extracting files from encrypted SMB3 communications.".</p>
-        <a href="https://github.com/fessor94/Decrypting_wireshark_pcap_traffic/blob/main/decrypted_protocols.md">View on GitHub</a>
-      </div>
-    </section>
-
-    <!-- Skills Section -->
-    <section id="skills" class="section">
-      <h2>🧠 Skills</h2>
-      <ul class="skills">
-        <li>Operating Systems (OSs): Windows, Windows Active Directory and Linux</li>
-        <li>Networking: TCP/IP, DNS, DHCP, VLANs, Routing Protocols</li>
-        <li>Security: ACLs, Firewalls, Packet Analysis, Linux Hardening</li>
-        <li>Tools: Wireshark, Linux CLI, Windows Admin, HackTheBox</li>
-        <li>Soft Skills: Problem-Solving, Teamwork, Process-Oriented</li>
-      </ul>
-    </section>
-
-    <!-- Contact Section -->
-    <section id="contact" class="section contact">
-      <h2>📬 Contact</h2>
-      <p><i class="fas fa-envelope"></i> <a href="mailto:dlamininjabulo247@gmail.com">dlamininjabulo247@gmail.com</a></p>
-      <p><i class="fas fa-phone"></i> <a href="tel:078 175 9763">078 175 9763</a></p>
-    </section>
-
+  <div class="cert-badge">
+    <i class="fas fa-shield-halved"></i>
+    ISC² Certified in Cybersecurity (CC)
   </div>
 
-  <footer>
-    <p>&copy; 2025 Njabulo Dlamini</p>
-    <p>Securing the digital world, one packet at a time.</p>
-  </footer>
+  <div class="social-icons">
+    <a href="mailto:dlamininjabulo247@gmail.com" title="Email" aria-label="Send email">
+      <i class="fas fa-envelope"></i>
+    </a>
+    <a href="tel:+27781759763" title="Call" aria-label="Call Njabulo">
+      <i class="fas fa-phone"></i>
+    </a>
+    <a href="https://github.com/fessor94" target="_blank" rel="noopener" title="GitHub" aria-label="GitHub profile">
+      <i class="fab fa-github"></i>
+    </a>
+    <a href="https://www.linkedin.com/in/njabulo-dlamini94/" target="_blank" rel="noopener" title="LinkedIn" aria-label="LinkedIn profile">
+      <i class="fab fa-linkedin"></i>
+    </a>
+  </div>
+</header>
+
+
+<!-- ══════════════════════
+     MAIN
+══════════════════════ -->
+<div class="container">
+
+  <!-- ABOUT -->
+  <section id="about" class="section">
+    <h2>👨‍💻 About Me</h2>
+    <div class="about-container">
+
+      <div class="about-img-col">
+        <img src="me1.jpg" alt="Njabulo Dlamini">
+      </div>
+
+      <div class="about-text-col">
+        <p>
+          Hey, I'm Njabulo — a naturally curious, tech-loving person currently diving into the world of cybersecurity. I have recently passed the ISC² CC (Certified in Cybersecurity). I've always been fascinated by how computers and networks work behind the scenes — whether it's figuring out how data travels or understanding the ins and outs of different systems, I'm hooked.
+        </p>
+        <p>
+          Cybersecurity — especially Security Operations Centers (SOC) — really speaks to me because I enjoy solving problems, spotting patterns, and staying one step ahead of potential threats. I come from a customer-facing background, so I'm used to staying calm under pressure, communicating clearly, and getting things done.
+        </p>
+        <p>
+          Right now, I'm self-teaching Python and digging into the technical side of cybersecurity: TCP/IP, firewalls, ACLs, network troubleshooting, and tools like Wireshark. I've been learning through HackTheBox, online labs, and a ton of YouTube deep dives. When it comes to tech, I'm also the go-to person in my family and friend group — if something stops working, I'm usually the one getting the call!
+        </p>
+      </div>
+
+    </div>
+  </section>
+
+
+  <!-- PROJECTS -->
+  <section id="projects" class="section">
+    <h2>🛡️ Projects</h2>
+
+    <div class="project">
+      <div class="project-header">
+        <img class="project-thumb" src="tpot.png" alt="T-Pot Honeypot">
+        <div class="project-title-wrap">
+          <h3>T-Pot Honeypot Deployment</h3>
+        </div>
+      </div>
+      <p>Deployed a honeypot to lure attackers and bots by exposing common ports like SSH and RDP, then used the Kibana Elastic Dashboard to analyse attacker behaviour in a real-world environment.</p>
+      <a class="project-link" href="https://github.com/fessor94/tpot-honeypot" target="_blank" rel="noopener">
+        <i class="fab fa-github"></i> View on GitHub
+      </a>
+    </div>
+
+    <div class="project">
+      <div class="project-header">
+        <img class="project-thumb" src="email.png" alt="Email Header Analysis">
+        <div class="project-title-wrap">
+          <h3>Email Header Analysis</h3>
+        </div>
+      </div>
+      <p>Demonstrated a solid understanding of email security and authentication protocols by performing a detailed email header analysis — tracing the path of a message and identifying SPF, DKIM, and DMARC results.</p>
+      <a class="project-link" href="https://github.com/fessor94/email-header-analysis/blob/main/email-header-analysis.md" target="_blank" rel="noopener">
+        <i class="fab fa-github"></i> View on GitHub
+      </a>
+    </div>
+
+    <div class="project">
+      <div class="project-header">
+        <img class="project-thumb" src="h.jpg" alt="BTLO Email Analysis Lab">
+        <div class="project-title-wrap">
+          <h3>BTLO Email Analysis Lab</h3>
+        </div>
+      </div>
+      <p>Tackled Blue Team Labs Online's "The Planet's Prestige" email analysis challenge — investigated a suspicious email chain, extracted indicators of compromise, and documented findings step by step.</p>
+      <a class="project-link" href="https://github.com/fessor94/BTLO_email_analysis/blob/main/BTLO_email_analysis_lab.md" target="_blank" rel="noopener">
+        <i class="fab fa-github"></i> View on GitHub
+      </a>
+    </div>
+
+    <div class="project">
+      <div class="project-header">
+        <img class="project-thumb" src="reachkart.png" alt="Wireshark Threat Analysis">
+        <div class="project-title-wrap">
+          <h3>Wireshark Threat Analysis — ReckKart</h3>
+        </div>
+      </div>
+      <p>A write-up of the HackTheBox ReckKart lab: an investigation-style challenge built around a .pcap file. Fired up Wireshark, dug through cryptic packets, and produced a beginner-friendly walkthrough because none existed. If you've been Googling wildly and wondering if Wireshark is judging you — this one's for you.</p>
+      <a class="project-link" href="https://github.com/fessor94/ReachKart_Walkthrough.git" target="_blank" rel="noopener">
+        <i class="fab fa-github"></i> View on GitHub
+      </a>
+    </div>
+
+    <div class="project">
+      <div class="project-header">
+        <img class="project-thumb" src="wireshaa.png" alt="Decrypting Wireshark PCAP Traffic">
+        <div class="project-title-wrap">
+          <h3>Decrypting Wireshark PCAP Traffic</h3>
+        </div>
+      </div>
+      <p>Extracted user credentials from a Windows memory dump, cracked an NTLM hash to recover a password, and used it to decrypt network traffic. A full forensic workflow — from credential recovery to analysing and extracting files from encrypted SMB3 communications.</p>
+      <a class="project-link" href="https://github.com/fessor94/Decrypting_wireshark_pcap_traffic/blob/main/decrypted_protocols.md" target="_blank" rel="noopener">
+        <i class="fab fa-github"></i> View on GitHub
+      </a>
+    </div>
+
+  </section>
+
+
+  <!-- SKILLS -->
+  <section id="skills" class="section">
+    <h2>🧠 Skills</h2>
+    <div class="skills-grid">
+
+      <div class="skill-card">
+        <i class="fas fa-desktop skill-icon"></i>
+        <span><strong>Operating Systems</strong><br>Windows, Windows Active Directory, Linux</span>
+      </div>
+
+      <div class="skill-card">
+        <i class="fas fa-network-wired skill-icon"></i>
+        <span><strong>Networking</strong><br>TCP/IP, DNS, DHCP, VLANs, Routing Protocols</span>
+      </div>
+
+      <div class="skill-card">
+        <i class="fas fa-shield-halved skill-icon"></i>
+        <span><strong>Security</strong><br>ACLs, Firewalls, Packet Analysis, Linux Hardening</span>
+      </div>
+
+      <div class="skill-card">
+        <i class="fas fa-tools skill-icon"></i>
+        <span><strong>Tools</strong><br>Wireshark, Linux CLI, Windows Admin, HackTheBox</span>
+      </div>
+
+      <div class="skill-card">
+        <i class="fas fa-users skill-icon"></i>
+        <span><strong>Soft Skills</strong><br>Problem-Solving, Teamwork, Process-Oriented</span>
+      </div>
+
+      <div class="skill-card">
+        <i class="fab fa-python skill-icon"></i>
+        <span><strong>Currently Learning</strong><br>Python, SOC workflows, Threat Intelligence</span>
+      </div>
+
+    </div>
+  </section>
+
+
+  <!-- CONTACT -->
+  <section id="contact" class="section">
+    <h2>📬 Contact</h2>
+    <div class="contact-list">
+      <div class="contact-item">
+        <i class="fas fa-envelope"></i>
+        <a href="mailto:dlamininjabulo247@gmail.com">dlamininjabulo247@gmail.com</a>
+      </div>
+      <div class="contact-item">
+        <i class="fas fa-phone"></i>
+        <a href="tel:+27781759763">078 175 9763</a>
+      </div>
+      <div class="contact-item">
+        <i class="fab fa-github"></i>
+        <a href="https://github.com/fessor94" target="_blank" rel="noopener">github.com/fessor94</a>
+      </div>
+      <div class="contact-item">
+        <i class="fab fa-linkedin"></i>
+        <a href="https://www.linkedin.com/in/njabulo-dlamini94/" target="_blank" rel="noopener">linkedin.com/in/njabulo-dlamini94</a>
+      </div>
+    </div>
+  </section>
+
+</div><!-- /.container -->
+
+
+<!-- ══════════════════════
+     FOOTER
+══════════════════════ -->
+<footer>
+  <p>&copy; 2025 <span class="accent-text">Njabulo Dlamini</span></p>
+  <p>Securing the digital world, one packet at a time.</p>
+</footer>
 
 </body>
 </html>
-
