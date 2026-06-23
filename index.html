@@ -7,8 +7,15 @@
   <meta name="description" content="Njabulo Dlamini — SOC Analyst in Training. Cybersecurity portfolio showcasing honeypot deployments, email analysis, Wireshark forensics and more.">
   <title>Njabulo Dlamini | SOC Portfolio</title>
 
-  <!-- Font Awesome (icons) -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <!-- Preload the above-the-fold avatar so it paints with the first frame -->
+  <link rel="preload" as="image" href="me1.webp" type="image/webp">
+
+  <!-- Font Awesome — loaded non-blocking so it never delays first paint -->
+  <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+        onload="this.onload=null;this.rel='stylesheet'">
+  <noscript>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  </noscript>
 
   <style>
 
@@ -412,6 +419,29 @@
       .cert-badge { display: none; }
     }
 
+    /* ════════════════════════════════════════
+       IMAGE LOADING STATES
+       Gives images a shimmer placeholder while
+       they load — prevents layout shift (CLS)
+    ════════════════════════════════════════ */
+    img {
+      background: var(--card);  /* dark placeholder until image paints */
+    }
+
+    /* Fade in once loaded */
+    img.loaded {
+      animation: imgFadeIn 0.3s ease forwards;
+    }
+
+    @keyframes imgFadeIn {
+      from { opacity: 0.4; }
+      to   { opacity: 1;   }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      img.loaded { animation: none; }
+    }
+
   </style>
 </head>
 <body>
@@ -436,7 +466,16 @@
      HEADER
 ══════════════════════ -->
 <header>
-  <img class="header-avatar" src="me1.jpg" alt="Photo of Njabulo Dlamini">
+  <!-- Above-the-fold: eager + high fetch priority, WebP with JPG fallback -->
+  <picture>
+    <source srcset="me1.webp" type="image/webp">
+    <img class="header-avatar"
+         src="me1.jpg"
+         alt="Photo of Njabulo Dlamini"
+         width="120" height="120"
+         loading="eager"
+         fetchpriority="high"
+         decoding="sync"></picture>
 
   <h1>Njabulo Dlamini</h1>
   <p class="tagline">Cybersecurity Enthusiast &nbsp;|&nbsp; SOC Analyst in Training</p>
@@ -474,7 +513,15 @@
     <div class="about-container">
 
       <div class="about-img-col">
-        <img src="me1.jpg" alt="Njabulo Dlamini">
+        <!-- Below fold: lazy load, WebP with JPG fallback -->
+        <picture>
+          <source srcset="me1.webp" type="image/webp">
+          <img src="me1.jpg"
+               alt="Njabulo Dlamini"
+               width="260" height="320"
+               loading="lazy"
+               decoding="async">
+        </picture>
       </div>
 
       <div class="about-text-col">
@@ -499,7 +546,11 @@
 
     <div class="project">
       <div class="project-header">
-        <img class="project-thumb" src="tpot.png" alt="T-Pot Honeypot">
+        <picture>
+          <source srcset="tpot.webp" type="image/webp">
+          <img class="project-thumb" src="tpot.png" alt="T-Pot Honeypot"
+               width="80" height="80" loading="lazy" decoding="async">
+        </picture>
         <div class="project-title-wrap">
           <h3>T-Pot Honeypot Deployment</h3>
         </div>
@@ -512,7 +563,11 @@
 
     <div class="project">
       <div class="project-header">
-        <img class="project-thumb" src="email.png" alt="Email Header Analysis">
+        <picture>
+          <source srcset="email.webp" type="image/webp">
+          <img class="project-thumb" src="email.png" alt="Email Header Analysis"
+               width="80" height="80" loading="lazy" decoding="async">
+        </picture>
         <div class="project-title-wrap">
           <h3>Email Header Analysis</h3>
         </div>
@@ -525,7 +580,11 @@
 
     <div class="project">
       <div class="project-header">
-        <img class="project-thumb" src="h.jpg" alt="BTLO Email Analysis Lab">
+        <picture>
+          <source srcset="h.webp" type="image/webp">
+          <img class="project-thumb" src="h.jpg" alt="BTLO Email Analysis Lab"
+               width="80" height="80" loading="lazy" decoding="async">
+        </picture>
         <div class="project-title-wrap">
           <h3>BTLO Email Analysis Lab</h3>
         </div>
@@ -538,7 +597,11 @@
 
     <div class="project">
       <div class="project-header">
-        <img class="project-thumb" src="reachkart.png" alt="Wireshark Threat Analysis">
+        <picture>
+          <source srcset="reachkart.webp" type="image/webp">
+          <img class="project-thumb" src="reachkart.png" alt="Wireshark Threat Analysis"
+               width="80" height="80" loading="lazy" decoding="async">
+        </picture>
         <div class="project-title-wrap">
           <h3>Wireshark Threat Analysis — ReckKart</h3>
         </div>
@@ -551,7 +614,11 @@
 
     <div class="project">
       <div class="project-header">
-        <img class="project-thumb" src="wireshaa.png" alt="Decrypting Wireshark PCAP Traffic">
+        <picture>
+          <source srcset="wireshaa.webp" type="image/webp">
+          <img class="project-thumb" src="wireshaa.png" alt="Decrypting Wireshark PCAP Traffic"
+               width="80" height="80" loading="lazy" decoding="async">
+        </picture>
         <div class="project-title-wrap">
           <h3>Decrypting Wireshark PCAP Traffic</h3>
         </div>
@@ -637,6 +704,19 @@
   <p>&copy; 2025 <span class="accent-text">Njabulo Dlamini</span></p>
   <p>Securing the digital world, one packet at a time.</p>
 </footer>
+
+<script>
+  // Add .loaded class to every image once it finishes loading
+  // so the CSS fade-in animation triggers cleanly
+  document.querySelectorAll("img").forEach(img => {
+    if (img.complete) {
+      img.classList.add("loaded");
+    } else {
+      img.addEventListener("load",  () => img.classList.add("loaded"));
+      img.addEventListener("error", () => img.style.opacity = "0.2"); // broken image still visible
+    }
+  });
+</script>
 
 </body>
 </html>
